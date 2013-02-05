@@ -35,3 +35,5 @@ src
 # Ignore generated config files
 etc/*.nginx.conf
 etc/*.logrotate
+
+htmlcov
