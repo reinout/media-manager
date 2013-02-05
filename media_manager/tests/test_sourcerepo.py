@@ -3,6 +3,8 @@ import shutil
 import tempfile
 import unittest
 
+from pkg_resources import resource_filename
+
 from media_manager import sourcerepo
 
 
@@ -30,6 +32,14 @@ class SourceRepoTest(unittest.TestCase):
     def setUp(self):
         self.tempdir = tempfile.mkdtemp()
         self.source_repo = sourcerepo.SourceRepo(self.tempdir)
+        # Two sample images from 2011.
+        self.sample_img1 = resource_filename(
+            'media_manager.tests', 'images/IMG_1285.JPG')
+        self.sample_img2 = resource_filename(
+            'media_manager.tests', 'images/IMG_1306.JPG')
+        # One sample image from 2012.
+        self.sample_img3 = resource_filename(
+            'media_manager.tests', 'images/IMG_0037.JPG')
 
     def tearDown(self):
         shutil.rmtree(self.tempdir)
@@ -51,6 +61,13 @@ class SourceRepoTest(unittest.TestCase):
                           self.source_repo.ensure_directory,
                           'something_else')
 
+    def test_add_file1(self):
+        self.source_repo.add_file(self.sample_img1)
+        self.assertTrue(exists(self.tempdir, 'photos/2011/img_1285.jpg'))
+
+    def test_add_file2(self):
+        self.source_repo.add_file(self.sample_img3)
+        self.assertTrue(exists(self.tempdir, 'photos/2012/img_0337.jpg'))
 
 class SourceRepoWithAnnexTest(unittest.TestCase):
 
