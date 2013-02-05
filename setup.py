@@ -19,13 +19,13 @@ tests_require = [
 
 setup(name='media-manager',
       version=version,
-      description="TODO",
+      description="Sync/add library for my photos and videos",
       long_description=long_description,
       # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[],
       keywords=[],
-      author='TODO',
-      author_email='TODO@nelen-schuurmans.nl',
+      author='Reinout van Rees',
+      author_email='reinout@vanrees.org',
       url='',
       license='GPL',
       packages=['media_manager'],

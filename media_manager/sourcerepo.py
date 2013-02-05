@@ -52,5 +52,4 @@ class SourceRepo(object):
         target = os.path.join(target_dir, filename)
         logger.debug("Adding file %s as %s.", filepath, target)
         # TODO check duplicate filenames. Or warn.
-        # TODO lowercase filename.
         shutil.copy(filepath, target)

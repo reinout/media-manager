@@ -69,6 +69,7 @@ class SourceRepoTest(unittest.TestCase):
         self.source_repo.add_file(self.sample_img3)
         self.assertTrue(exists(self.tempdir, 'photos/2012/img_0337.jpg'))
 
+
 class SourceRepoWithAnnexTest(unittest.TestCase):
 
     def setUp(self):
