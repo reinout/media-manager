@@ -37,3 +37,5 @@ etc/*.nginx.conf
 etc/*.logrotate
 
 htmlcov
+
+.DS_Store
