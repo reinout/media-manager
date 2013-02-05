@@ -20,3 +20,14 @@ class MetadataTest(unittest.TestCase):
     def test_smoke(self):
         md = metadata.Metadata()
         self.assertTrue(md.filename.endswith('media/metadata.json'))
+
+    def test_read_nonexisting(self):
+        md = metadata.Metadata()
+        md.read()
+        self.assertEquals(md.contents, {})
+
+    def test_write_read_empty(self):
+        md = metadata.Metadata()
+        md.write()
+        md.read()
+        self.assertEquals(md.contents, {})
