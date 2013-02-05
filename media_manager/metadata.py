@@ -4,8 +4,6 @@ import json
 import logging
 import os
 
-from media_manager.config import DEFAULT_CONFIG
-
 METADATA_FILENAME = 'metadata.json'
 
 logger = logging.getLogger(__name__)
@@ -15,11 +13,8 @@ class Metadata(object):
     """Wrapper around a JSON file that holds the media metadata.
 
     """
-    def __init__(self, config=None):
-        self.config = config
-        if self.config is None:
-            self.config = DEFAULT_CONFIG
-        self.source_repo_location = self.config['source_repo_location']
+    def __init__(self, source_repo_location):
+        self.source_repo_location = source_repo_location
         self.filename = os.path.join(self.source_repo_location,
                                      METADATA_FILENAME)
         self.contents = {}

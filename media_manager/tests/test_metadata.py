@@ -1,33 +1,30 @@
-import unittest
+import os
 import shutil
 import tempfile
+import unittest
 
 from media_manager import metadata
-from media_manager import config
 
 
 class MetadataTest(unittest.TestCase):
 
     def setUp(self):
         self.tempdir = tempfile.mkdtemp()
-        self.config = {}
-        self.config.update(config.DEFAULT_CONFIG)
-        self.config['source_repo_location'] = self.tempdir
+        self.metadata = metadata.Metadata(self.tempdir)
 
     def tearDown(self):
         shutil.rmtree(self.tempdir)
 
     def test_smoke(self):
-        md = metadata.Metadata()
-        self.assertTrue(md.filename.endswith('media/metadata.json'))
+        self.assertTrue(self.metadata.filename.endswith('metadata.json'))
 
     def test_read_nonexisting(self):
-        md = metadata.Metadata()
-        md.read()
-        self.assertEquals(md.contents, {})
+        self.metadata.read()
+        self.assertEquals(self.metadata.contents, {})
 
     def test_write_read_empty(self):
-        md = metadata.Metadata()
-        md.write()
-        md.read()
-        self.assertEquals(md.contents, {})
+        self.metadata = metadata.Metadata(self.tempdir)
+        self.metadata.write()
+        self.metadata.read()
+        self.assertTrue(os.path.exists(os.path.join(
+                    self.tempdir, 'metadata.json')))
