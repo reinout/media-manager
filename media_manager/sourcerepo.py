@@ -46,6 +46,8 @@ class SourceRepo(object):
     def add_file(self, filepath, kind, year, title=None):
         """Copy the file to the source repo in a year directory.
 
+        Return the filename relative to the root, we use that as an identifier.
+
         Detect filetype and also record the source filepath in the metadata.
         """
         assert kind in KINDS
@@ -56,3 +58,4 @@ class SourceRepo(object):
         logger.debug("Adding file %s as %s.", filepath, target)
         # TODO check duplicate filenames. Or warn.
         shutil.copy(filepath, target)
+        return os.path.relpath(target, self.source_repo_location)

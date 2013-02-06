@@ -68,10 +68,16 @@ class SourceRepoTest(unittest.TestCase):
         self.source_repo.add_file(self.sample_img3, 'photos', 2012)
         self.assertTrue(exists(self.tempdir, 'photos/2012/img_0337.jpg'))
 
+    def test_add_file_returns_id(self):
+        id = self.source_repo.add_file(self.sample_img1, 'photos', 2011)
+        self.assertEquals(id, 'photos/2011/img_1285.jpg')
+
     def test_add_file_with_title(self):
-        self.source_repo.add_file(self.sample_img1, 'photos', 2011,
-                                  title="Some nice title")
-        self.assertTrue(exists(self.tempdir, 'photos/2011/some-nice-title.jpg'))
+        id = self.source_repo.add_file(self.sample_img1, 'photos', 2011,
+                                       title="Some nice title")
+        self.assertTrue(exists(self.tempdir,
+                               'photos/2011/some-nice-title.jpg'))
+        self.assertEquals(id, 'photos/2011/some-nice-title.jpg')
 
     def test_add_file_with_title_with_duplicates(self):
         self.source_repo.add_file(self.sample_img1, 'photos', 2011,
