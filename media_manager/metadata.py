@@ -1,5 +1,7 @@
 """JSON-stored metadata about the managed media.
 """
+from __future__ import unicode_literals
+from __future__ import print_function
 import json
 import logging
 import os

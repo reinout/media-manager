@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+from __future__ import print_function
 import os
 import shutil
 import tempfile
@@ -6,10 +8,7 @@ import unittest
 from pkg_resources import resource_filename
 
 from media_manager import sourcerepo
-
-
-def exists(*path_elements):
-    return os.path.exists(os.path.join(*path_elements))
+from media_manager.utils import exists
 
 
 class ChdirContext(object):
@@ -62,12 +61,25 @@ class SourceRepoTest(unittest.TestCase):
                           'something_else')
 
     def test_add_file1(self):
-        self.source_repo.add_file(self.sample_img1, 2011)
+        self.source_repo.add_file(self.sample_img1, 'photos', 2011)
         self.assertTrue(exists(self.tempdir, 'photos/2011/img_1285.jpg'))
 
     def test_add_file2(self):
-        self.source_repo.add_file(self.sample_img3, 2012)
+        self.source_repo.add_file(self.sample_img3, 'photos', 2012)
         self.assertTrue(exists(self.tempdir, 'photos/2012/img_0337.jpg'))
+
+    def test_add_file_with_title(self):
+        self.source_repo.add_file(self.sample_img1, 'photos', 2011,
+                                  title="Some nice title")
+        self.assertTrue(exists(self.tempdir, 'photos/2011/some-nice-title.jpg'))
+
+    def test_add_file_with_title_with_duplicates(self):
+        self.source_repo.add_file(self.sample_img1, 'photos', 2011,
+                                  title="Some nice title")
+        self.source_repo.add_file(self.sample_img2, 'photos', 2011,
+                                  title="Some nice title")
+        self.assertTrue(exists(self.tempdir, 'photos/2011/some-nice-title.jpg'))
+        self.assertTrue(exists(self.tempdir, 'photos/2011/some-nice-title_.jpg'))
 
 
 class SourceRepoWithAnnexTest(unittest.TestCase):

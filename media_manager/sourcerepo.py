@@ -1,8 +1,11 @@
+from __future__ import unicode_literals
+from __future__ import print_function
 import logging
 import os
 import shutil
 
 from media_manager.metadata import Metadata
+from media_manager import utils
 
 
 KINDS = ('photos', 'videos')
@@ -22,9 +25,9 @@ class SourceRepo(object):
         self.source_repo_location = source_repo_location
         self.metadata = Metadata(self.source_repo_location)
 
-    def read(self):
-        """Iterate through the source repo and extract the file info."""
-        pass
+    # def read(self):
+    #     """Iterate through the source repo and extract the file info."""
+    #     pass
 
     def ensure_directory(self, kind, year=None):
         """Make sure the directory exists. Return the directory's path.
@@ -40,14 +43,15 @@ class SourceRepo(object):
             os.makedirs(directory)
         return directory
 
-    def add_file(self, filepath, year):
+    def add_file(self, filepath, kind, year, title=None):
         """Copy the file to the source repo in a year directory.
 
         Detect filetype and also record the source filepath in the metadata.
         """
-        kind = 'photos'
+        assert kind in KINDS
         target_dir = self.ensure_directory(kind, year)
-        filename = os.path.basename(filepath).lower()
+        filename = os.path.basename(filepath)
+        filename = utils.nice_filename(filename, title, target_dir)
         target = os.path.join(target_dir, filename)
         logger.debug("Adding file %s as %s.", filepath, target)
         # TODO check duplicate filenames. Or warn.
