@@ -74,3 +74,33 @@ The target?
 
 What if metadata is missing? Perhaps a script that notes it and allows you to
 add it.
+
+
+Albums/categories
+-----------------
+
+Albums are categories. But I have gone overboard with them on flickr and
+smugmug. But I think I can simplify it in this new setup.
+
+- I use events, so things like "vacation 2012" are already bundled in an
+  event.
+
+- If I add geotags everywhere, I don't have to split my train photos in "Dutch
+  train photos" and "German train photos. That'll be done automatically once I
+  get around to programming it.
+
+- I can always add tags for some extra grouping later on if I need it.
+
+- I can tag events, too. Perhaps a nice way to group swordfighting stuff?
+
+- Nobody's going to do much browsing through my photos. At least not through
+  multiple levels of folders. The only thing I need to do, really, is to group
+  it for external visitors. "Family", "trains". So that those interested in
+  trains aren't bothered with my cycling photos.
+
+- For special items, I can make proper textual pages in the regular part of my
+  website.
+
+Here's a brainstormed list: ligfiets, familie, (de)construction, trains, model
+trains, historical trains, work, csr, kerk, school. As an example, "work"
+contains zestsoftware, python meetings, PhD conferences and so on.

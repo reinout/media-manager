@@ -1,7 +1,8 @@
 import logging
 import os
 import plistlib
-from collections import defaultdict
+
+from media_manager import config
 
 ALBUMDATA = 'AlbumData.xml'
 
@@ -66,11 +67,8 @@ class Iphoto(object):
                 logger.debug("Unused album type: %s", album_type)
 
 
-
 if __name__ == '__main__':
-    iphoto_location = os.path.abspath(os.path.expanduser(
-            '~/Pictures/iPhoto Library'))
-    iphoto = Iphoto(iphoto_location)
+    iphoto = Iphoto(config.IPHOTO_LOCATION)
     iphoto.read()
     iphoto.extract_albums_and_events()
     iphoto.extract_photos()

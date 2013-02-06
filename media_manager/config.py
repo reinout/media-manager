@@ -6,6 +6,17 @@ def absolute_expanded_path(path):
     return os.path.abspath(os.path.expanduser(path))
 
 
-DEFAULT_CONFIG = {
-    'source_repo_location': absolute_expanded_path('~/media')
-    }
+IPHOTO_LOCATION = absolute_expanded_path('~/Pictures/iPhoto Library')
+
+CATEGORIES = [
+    "ligfiets",
+    "familie",
+    "construction",
+    "trains",
+    "modeltrains",
+    "historicaltrains",
+    "work",
+    "csrdelft",
+    "kerk",
+    "school",
+    ]
