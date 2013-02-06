@@ -40,13 +40,12 @@ class SourceRepo(object):
             os.makedirs(directory)
         return directory
 
-    def add_file(self, filepath):
+    def add_file(self, filepath, year):
         """Copy the file to the source repo in a year directory.
 
         Detect filetype and also record the source filepath in the metadata.
         """
         kind = 'photos'
-        year = 2011
         target_dir = self.ensure_directory(kind, year)
         filename = os.path.basename(filepath).lower()
         target = os.path.join(target_dir, filename)

@@ -4,6 +4,8 @@ import json
 import logging
 import os
 
+from media_manager import utils
+
 METADATA_FILENAME = 'metadata.json'
 
 logger = logging.getLogger(__name__)
@@ -27,7 +29,16 @@ class Metadata(object):
                 self.filename)
             return
         self.contents = json.load(open(self.filename))
+        self.update_content_structure()
 
     def write(self):
         """Write our contents back to the metadata file."""
         json.dump(self.contents, open(self.filename, 'w'))
+
+    def update_content_structure(self):
+        """Fix up the content dict, if needed."""
+        if not 'albums' in self.contents:
+            self.contents['albums'] = {}
+        for album_name in utils.ALBUMS:
+            if album_name not in self.contents['albums']:
+                self.contents['albums'][album_name] = []

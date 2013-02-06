@@ -2,7 +2,7 @@ import logging
 import os
 import plistlib
 
-from media_manager import config
+from media_manager import utils
 
 ALBUMDATA = 'AlbumData.xml'
 
@@ -68,7 +68,9 @@ class Iphoto(object):
 
 
 if __name__ == '__main__':
-    iphoto = Iphoto(config.IPHOTO_LOCATION)
+    iphoto_location = utils.absolute_expanded_path(
+        '~/Pictures/iPhoto Library')
+    iphoto = Iphoto(iphoto_location)
     iphoto.read()
     iphoto.extract_albums_and_events()
     iphoto.extract_photos()

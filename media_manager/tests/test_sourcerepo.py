@@ -39,7 +39,7 @@ class SourceRepoTest(unittest.TestCase):
             'media_manager.tests', 'images/IMG_1306.JPG')
         # One sample image from 2012.
         self.sample_img3 = resource_filename(
-            'media_manager.tests', 'images/IMG_0037.JPG')
+            'media_manager.tests', 'images/IMG_0337.JPG')
 
     def tearDown(self):
         shutil.rmtree(self.tempdir)
@@ -62,11 +62,11 @@ class SourceRepoTest(unittest.TestCase):
                           'something_else')
 
     def test_add_file1(self):
-        self.source_repo.add_file(self.sample_img1)
+        self.source_repo.add_file(self.sample_img1, 2011)
         self.assertTrue(exists(self.tempdir, 'photos/2011/img_1285.jpg'))
 
     def test_add_file2(self):
-        self.source_repo.add_file(self.sample_img3)
+        self.source_repo.add_file(self.sample_img3, 2012)
         self.assertTrue(exists(self.tempdir, 'photos/2012/img_0337.jpg'))
 
 
