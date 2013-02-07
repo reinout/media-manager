@@ -8,6 +8,24 @@ import unittest
 from media_manager import metadata
 
 
+class MetadataItemTest(unittest.TestCase):
+
+    def test_kwarg_setting(self):
+        item = metadata.MetadataItem(id='abc')
+        self.assertEquals(item.id, 'abc')
+
+    def test_only_allowed_kwarg_setting(self):
+        self.assertRaises(ValueError, metadata.MetadataItem, reinout='abc')
+
+    def test_as_dict1(self):
+        item = metadata.MetadataItem()
+        self.assertEquals(item.as_dict(), {})
+
+    def test_as_dict2(self):
+        item = metadata.MetadataItem(id='abc')
+        self.assertEquals(item.as_dict(), {'id': 'abc'})
+
+
 class MetadataTest(unittest.TestCase):
 
     def setUp(self):

@@ -10,26 +10,28 @@ from media_manager import utils
 
 METADATA_FILENAME = 'metadata.json'
 GENERIC_FIELDS = [
-    'original_filepath',
     'kind',
     'id',
+    ]
+FILE_FIELDS = GENERIC_FIELDS + [
+    'original_filepath',
     'year',
     'title',
     ]
-PHOTO_FIELDS = GENERIC_FIELDS + []
-VIDEO_FIELDS = GENERIC_FIELDS + []
+PHOTO_FIELDS = FILE_FIELDS + []
+VIDEO_FIELDS = FILE_FIELDS + []
 
 logger = logging.getLogger(__name__)
 
 
 class MetadataItem(object):
     title = None
-    fields = []
+    fields = GENERIC_FIELDS
 
     def __init__(self, **kwargs):
         for kwarg in kwargs:
             if kwarg not in self.fields:
-                raise RuntimeError("Unknown kwarg: {}".format(kwarg))
+                raise ValueError("Unknown kwarg: {}".format(kwarg))
             setattr(self, kwarg, kwargs[kwarg])
 
     def as_dict(self):
@@ -94,4 +96,8 @@ class Metadata(object):
         if item.id in self.contents[item.kind]:
             logger.debug("Overwriting existing {id} in {kind}.".format(
                     id=item.id, kind=item.kind))
+        # Check *_link(s) attributes. Add auto-references.
+        # albums_links = [album1_id, album2_id]
+        # Add our (if we're kind=videos) link to those two albums in their
+        # videos_links attr.
         self.contents[item.kind][item.id] = item
