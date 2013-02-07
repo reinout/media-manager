@@ -9,8 +9,42 @@ import os
 from media_manager import utils
 
 METADATA_FILENAME = 'metadata.json'
+GENERIC_FIELDS = [
+    'original_filepath',
+    'kind',
+    'id',
+    'year',
+    'title',
+    ]
+PHOTO_FIELDS = GENERIC_FIELDS + []
+VIDEO_FIELDS = GENERIC_FIELDS + []
 
 logger = logging.getLogger(__name__)
+
+
+class MetadataItem(object):
+    title = None
+    fields = []
+
+    def __init__(self, **kwargs):
+        for kwarg in kwargs:
+            if kwarg not in self.fields:
+                raise RuntimeError("Unknown kwarg: {}".format(kwarg))
+            setattr(self, kwarg, kwargs[kwarg])
+
+    def as_dict(self):
+        """Return ourselves as a dictionary."""
+        result = {}
+        for field in self.fields:
+            value = getattr(self, field, None)
+            if value:
+                result[field] = value
+        return result
+
+
+class Photo(MetadataItem):
+    kind = 'photos'
+    fields = PHOTO_FIELDS
 
 
 class Metadata(object):
@@ -27,7 +61,7 @@ class Metadata(object):
         """Read the metadata file."""
         if not os.path.exists(self.filename):
             logger.warning(
-                "Metadata file {} doesn't exist yet. We'll create it later.",
+                "Metadata file %s doesn't exist yet. We'll create it later.",
                 self.filename)
             return
         self.contents = json.load(open(self.filename))
@@ -44,3 +78,20 @@ class Metadata(object):
         for album_name in utils.ALBUMS:
             if album_name not in self.contents['albums']:
                 self.contents['albums'][album_name] = []
+        if not 'photos' in self.contents:
+            self.contents['photos'] = {}
+        if not 'videos' in self.contents:
+            self.contents['videos'] = {}
+
+    def add(self, item):
+        if item.kind not in self.contents:
+            raise ValueError(
+                "Unknown kind {}, not in our self.contents.".format(
+                    item.kind))
+        # Assert item.addable_to_metadata() (remove stuff below)
+        if not item.id:
+            raise ValueError("Item {} doesn't have an id.".format(item))
+        if item.id in self.contents[item.kind]:
+            logger.debug("Overwriting existing {id} in {kind}.".format(
+                    id=item.id, kind=item.kind))
+        self.contents[item.kind][item.id] = item

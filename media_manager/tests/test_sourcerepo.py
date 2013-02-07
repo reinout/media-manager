@@ -7,8 +7,9 @@ import unittest
 
 from pkg_resources import resource_filename
 
+from media_manager import metadata
 from media_manager import sourcerepo
-from media_manager.utils import exists
+from media_manager import utils
 
 
 class ChdirContext(object):
@@ -45,15 +46,15 @@ class SourceRepoTest(unittest.TestCase):
 
     def test_ensure_directory1(self):
         self.source_repo.ensure_directory('photos')
-        self.assertTrue(exists(self.tempdir, 'photos'))
+        self.assertTrue(utils.exists(self.tempdir, 'photos'))
 
     def test_ensure_directory2(self):
         self.source_repo.ensure_directory('photos', 1972)
-        self.assertTrue(exists(self.tempdir, 'photos', '1972'))
+        self.assertTrue(utils.exists(self.tempdir, 'photos', '1972'))
 
     def test_ensure_directory3(self):
         self.source_repo.ensure_directory('photos', '1972')
-        self.assertTrue(exists(self.tempdir, 'photos', '1972'))
+        self.assertTrue(utils.exists(self.tempdir, 'photos', '1972'))
 
     def test_ensure_directory4(self):
         self.assertRaises(AssertionError,
@@ -61,31 +62,55 @@ class SourceRepoTest(unittest.TestCase):
                           'something_else')
 
     def test_add_file1(self):
-        self.source_repo.add_file(self.sample_img1, 'photos', 2011)
-        self.assertTrue(exists(self.tempdir, 'photos/2011/img_1285.jpg'))
+        sample_file = metadata.Photo(
+            original_filepath=self.sample_img1,
+            year=2011)
+        self.source_repo.add_file(sample_file)
+        self.assertTrue(utils.exists(self.tempdir,
+                                     'photos/2011/img_1285.jpg'))
 
     def test_add_file2(self):
-        self.source_repo.add_file(self.sample_img3, 'photos', 2012)
-        self.assertTrue(exists(self.tempdir, 'photos/2012/img_0337.jpg'))
+        sample_file = metadata.Photo(
+            original_filepath=self.sample_img3,
+            year=2012)
+        self.source_repo.add_file(sample_file)
+        self.assertTrue(utils.exists(self.tempdir,
+                                     'photos/2012/img_0337.jpg'))
 
-    def test_add_file_returns_id(self):
-        id = self.source_repo.add_file(self.sample_img1, 'photos', 2011)
-        self.assertEquals(id, 'photos/2011/img_1285.jpg')
+    def test_add_file_sets_id(self):
+        sample_file = metadata.Photo(
+            original_filepath=self.sample_img1,
+            year=2011)
+        self.source_repo.add_file(sample_file)
+        self.assertEquals(sample_file.id, 'photos/2011/img_1285.jpg')
 
     def test_add_file_with_title(self):
-        id = self.source_repo.add_file(self.sample_img1, 'photos', 2011,
-                                       title="Some nice title")
-        self.assertTrue(exists(self.tempdir,
-                               'photos/2011/some-nice-title.jpg'))
-        self.assertEquals(id, 'photos/2011/some-nice-title.jpg')
+        sample_file = metadata.Photo(
+            original_filepath=self.sample_img1,
+            year=2011,
+            title="Some nice title")
+        self.source_repo.add_file(sample_file)
+        self.assertTrue(utils.exists(self.tempdir,
+                                     'photos/2011/some-nice-title.jpg'))
+        self.assertEquals(sample_file.id, 'photos/2011/some-nice-title.jpg')
 
     def test_add_file_with_title_with_duplicates(self):
-        self.source_repo.add_file(self.sample_img1, 'photos', 2011,
-                                  title="Some nice title")
-        self.source_repo.add_file(self.sample_img2, 'photos', 2011,
-                                  title="Some nice title")
-        self.assertTrue(exists(self.tempdir, 'photos/2011/some-nice-title.jpg'))
-        self.assertTrue(exists(self.tempdir, 'photos/2011/some-nice-title_.jpg'))
+        sample_file1 = metadata.Photo(
+            original_filepath=self.sample_img1,
+            year=2011,
+            title="Some nice title")
+        sample_file2 = metadata.Photo(
+            original_filepath=self.sample_img2,
+            year=2011,
+            title="Some nice title")
+        self.source_repo.add_file(sample_file1)
+        self.source_repo.add_file(sample_file2)
+        self.assertTrue(utils.exists(self.tempdir,
+                                     'photos/2011/some-nice-title.jpg'))
+        self.assertTrue(utils.exists(self.tempdir,
+                                     'photos/2011/some-nice-title_.jpg'))
+        self.assertEquals(sample_file1.id, 'photos/2011/some-nice-title.jpg')
+        self.assertEquals(sample_file2.id, 'photos/2011/some-nice-title_.jpg')
 
 
 class SourceRepoWithAnnexTest(unittest.TestCase):

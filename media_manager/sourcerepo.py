@@ -24,6 +24,7 @@ class SourceRepo(object):
     def __init__(self, source_repo_location):
         self.source_repo_location = source_repo_location
         self.metadata = Metadata(self.source_repo_location)
+        self.metadata.read()
 
     # def read(self):
     #     """Iterate through the source repo and extract the file info."""
@@ -43,19 +44,20 @@ class SourceRepo(object):
             os.makedirs(directory)
         return directory
 
-    def add_file(self, filepath, kind, year, title=None):
+    def add_file(self, item):
         """Copy the file to the source repo in a year directory.
 
         Return the filename relative to the root, we use that as an identifier.
 
         Detect filetype and also record the source filepath in the metadata.
         """
-        assert kind in KINDS
-        target_dir = self.ensure_directory(kind, year)
-        filename = os.path.basename(filepath)
-        filename = utils.nice_filename(filename, title, target_dir)
+        assert item.kind in KINDS
+        # Assert item.addable_to_source_repo()
+        target_dir = self.ensure_directory(item.kind, item.year)
+        filename = os.path.basename(item.original_filepath)
+        filename = utils.nice_filename(filename, item.title, target_dir)
         target = os.path.join(target_dir, filename)
-        logger.debug("Adding file %s as %s.", filepath, target)
+        logger.debug("Adding file %s as %s.", item.original_filepath, target)
         # TODO check duplicate filenames. Or warn.
-        shutil.copy(filepath, target)
-        return os.path.relpath(target, self.source_repo_location)
+        shutil.copy(item.original_filepath, target)
+        item.id = os.path.relpath(target, self.source_repo_location)
