@@ -25,6 +25,16 @@ class MetadataItemTest(unittest.TestCase):
         item = metadata.MetadataItem(id='abc')
         self.assertEquals(item.as_dict(), {'id': 'abc'})
 
+    def test_addable_to_metadata1(self):
+        # We need an ID before the metadata can accept us.
+        item = metadata.MetadataItem()
+        self.assertFalse(item.addable_to_metadata)
+
+    def test_addable_to_metadata2(self):
+        # We need an ID before the metadata can accept us.
+        item = metadata.MetadataItem(id='abc')
+        self.assertTrue(item.addable_to_metadata)
+
 
 class MetadataTest(unittest.TestCase):
 

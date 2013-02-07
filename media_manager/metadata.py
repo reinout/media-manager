@@ -43,6 +43,10 @@ class MetadataItem(object):
                 result[field] = value
         return result
 
+    @property
+    def addable_to_metadata(self):
+        return hasattr(self, 'id')
+
 
 class Photo(MetadataItem):
     kind = 'photos'
@@ -86,13 +90,7 @@ class Metadata(object):
             self.contents['videos'] = {}
 
     def add(self, item):
-        if item.kind not in self.contents:
-            raise ValueError(
-                "Unknown kind {}, not in our self.contents.".format(
-                    item.kind))
-        # Assert item.addable_to_metadata() (remove stuff below)
-        if not item.id:
-            raise ValueError("Item {} doesn't have an id.".format(item))
+        assert item.addable_to_metadata
         if item.id in self.contents[item.kind]:
             logger.debug("Overwriting existing {id} in {kind}.".format(
                     id=item.id, kind=item.kind))
