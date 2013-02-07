@@ -37,5 +37,6 @@ setup(name='media-manager',
       extras_require={'test': tests_require},
       entry_points={
           'console_scripts': [
+            'add_video = media_manager.runner:add_video',
           ]},
       )

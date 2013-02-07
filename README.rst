@@ -104,3 +104,19 @@ smugmug. But I think I can simplify it in this new setup.
 Here's a brainstormed list: ligfiets, familie, (de)construction, trains, model
 trains, historical trains, work, csr, kerk, school. As an example, "work"
 contains zestsoftware, python meetings, PhD conferences and so on.
+
+
+TODO
+----
+
+- Add cleanup function that filters out non-existing photos/videos and that
+  also removes them from the albums.
+
+- Add cleanup suggestion function that prints a list of videos that can be
+  locally removed.
+
+- Add git annex commands.
+
+- Add page generation on the server.
+
+- Add conversion on the server.

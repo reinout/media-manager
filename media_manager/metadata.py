@@ -114,7 +114,7 @@ class Metadata(object):
 
     def write(self):
         """Write our contents back to the metadata file."""
-        json.dump(self.contents, open(self.filename, 'w'))
+        json.dump(self.contents, open(self.filename, 'w'), indent=4)
 
     def _get_contents(self):
         """Return nice dict, collected from our attributes."""
