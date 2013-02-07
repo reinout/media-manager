@@ -77,6 +77,14 @@ class SourceRepoTest(unittest.TestCase):
         self.assertTrue(utils.exists(self.tempdir,
                                      'photos/2012/img_0337.jpg'))
 
+    def test_add_file_git_integration(self):
+        sample_file = metadata.Photo(
+            original_filepath=self.sample_img3,
+            year=2012)
+        self.source_repo.add_file(sample_file)
+        self.assertTrue(self.source_repo.git_commands,
+                        ['git annex add photos/2012/img_0337.jpg'])
+
     def test_add_file_sets_id(self):
         sample_file = metadata.Photo(
             original_filepath=self.sample_img1,

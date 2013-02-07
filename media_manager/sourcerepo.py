@@ -19,6 +19,7 @@ class SourceRepo(object):
     """
     def __init__(self, source_repo_location):
         self.source_repo_location = source_repo_location
+        self.git_commands = []
 
     # def read(self):
     #     """Iterate through the source repo and extract the file info."""
@@ -51,3 +52,4 @@ class SourceRepo(object):
         target = os.path.join(target_dir, filename)
         logger.debug("Adding file %s as %s.", item.original_filepath, target)
         shutil.copy(item.original_filepath, target)
+        self.git_commands.append("git annex add {}".format(target))

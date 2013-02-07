@@ -69,3 +69,16 @@ def add_video():
     source_repo.add_file(video)
     md.add(video)
     md.write()
+
+    current_dir = os.getcwd()
+    # Print command suggestions.
+    print("Suggested commands:\n")
+    print("cd {}".format(DEFAULT_REPO))
+    for cmd in source_repo.git_commands:
+        print(cmd)
+    print("git add -u")
+    print("git commit -m 'update'")
+    print("git push")
+    print("git annex copy --to origin")
+    print("git annex sync")
+    print("cd {}".format(current_dir))
