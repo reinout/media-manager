@@ -86,13 +86,13 @@ class MetadataTest(unittest.TestCase):
                     self.tempdir, 'metadata.json')))
 
     def test_write_read_non_empty(self):
-        self.metadata.read()
-        self.metadata.contents['reinout'] = 'fantastic'
+        video = metadata.Video(id='a', title='reinout')
+        self.metadata.videos['a'] = video
         self.metadata.write()
         # Grab a new copy.
         new = metadata.Metadata(self.tempdir)
         new.read()
-        self.assertEquals(new.contents['reinout'], 'fantastic')
+        self.assertEquals(new.videos['a'].title, 'reinout')
 
     def test_add1(self):
         self.metadata.read()
@@ -102,12 +102,15 @@ class MetadataTest(unittest.TestCase):
 
     def test_add_persists(self):
         self.metadata.read()
-        item = metadata.Video(id='a')
-        self.metadata.add(item)
+        video = metadata.Video(id='a')
+        self.metadata.add(video)
+        photo = metadata.Photo(id='b')
+        self.metadata.add(photo)
         self.metadata.write()
         new = metadata.Metadata(self.tempdir)
         new.read()
         self.assertTrue('a' in new.contents['videos'])
+        self.assertTrue('b' in new.contents['photos'])
 
     def test_add_overwriting(self):
         self.metadata.read()

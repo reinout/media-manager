@@ -96,7 +96,11 @@ class Metadata(object):
         self.source_repo_location = source_repo_location
         self.filename = os.path.join(self.source_repo_location,
                                      METADATA_FILENAME)
-        self.contents = {}
+        self.albums = {}
+        for album_name in utils.ALBUMS:
+            self.albums[album_name] = []
+        self.photos = {}
+        self.videos = {}
 
     def read(self):
         """Read the metadata file."""
@@ -106,31 +110,43 @@ class Metadata(object):
                 self.filename)
         else:
             self.contents = json.load(open(self.filename))
-        self.update_content_structure()
 
     def write(self):
         """Write our contents back to the metadata file."""
         json.dump(self.contents, open(self.filename, 'w'))
 
-    def update_content_structure(self):
-        """Fix up the content dict, if needed."""
-        if not 'albums' in self.contents:
-            self.contents['albums'] = {}
-        for album_name in utils.ALBUMS:
-            if album_name not in self.contents['albums']:
-                self.contents['albums'][album_name] = []
-        if not 'photos' in self.contents:
-            self.contents['photos'] = {}
-        if not 'videos' in self.contents:
-            self.contents['videos'] = {}
+    def _get_contents(self):
+        """Return nice dict, collected from our attributes."""
+        result = {}
+        result['albums'] = self.albums
+        result['photos'] = {}
+        for id, photo in self.photos.items():
+            result['photos'][id] = photo.as_dict()
+        result['videos'] = {}
+        for id, video in self.videos.items():
+            result['videos'][id] = video.as_dict()
+        return result
+
+    def _set_contents(self, contents_dict):
+        """Sync contents dict we're getting from JSON to our attributes."""
+        self.albums = contents_dict['albums']
+        for photo_info in contents_dict['photos'].values():
+            photo = Photo(**photo_info)
+            self.add(photo)
+        for video_info in contents_dict['videos'].values():
+            video = Video(**video_info)
+            self.add(video)
+
+    contents = property(_get_contents, _set_contents)
 
     def add(self, item):
         assert item.addable_to_metadata
-        if item.id in self.contents[item.kind]:
+        items = getattr(self, item.kind)
+        if item.id in items:
             logger.debug("Overwriting existing {id} in {kind}.".format(
                     id=item.id, kind=item.kind))
         # Check *_link(s) attributes. Add auto-references.
         # albums_links = [album1_id, album2_id]
         # Add our (if we're kind=videos) link to those two albums in their
         # videos_links attr.
-        self.contents[item.kind][item.id] = item.as_dict()
+        items[item.id] = item
