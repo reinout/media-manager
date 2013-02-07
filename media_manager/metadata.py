@@ -17,6 +17,7 @@ FILE_FIELDS = GENERIC_FIELDS + [
     'original_filepath',
     'year',
     'title',
+    'albums',
     ]
 PHOTO_FIELDS = FILE_FIELDS + []
 VIDEO_FIELDS = FILE_FIELDS + []
@@ -118,7 +119,9 @@ class Metadata(object):
     def _get_contents(self):
         """Return nice dict, collected from our attributes."""
         result = {}
-        result['albums'] = self.albums
+        result['albums'] = {}
+        for key, values in self.albums.items():
+            result['albums'][key] = list(set(values))
         result['photos'] = {}
         for id, photo in self.photos.items():
             result['photos'][id] = photo.as_dict()
@@ -140,6 +143,7 @@ class Metadata(object):
     contents = property(_get_contents, _set_contents)
 
     def add(self, item):
+        """Add photo or video."""
         assert item.addable_to_metadata
         items = getattr(self, item.kind)
         if item.id in items:
@@ -150,3 +154,6 @@ class Metadata(object):
         # Add our (if we're kind=videos) link to those two albums in their
         # videos_links attr.
         items[item.id] = item
+        for album_name in getattr(item, 'albums', []):
+            assert album_name in utils.ALBUMS
+            self.albums[album_name].append(item.id)

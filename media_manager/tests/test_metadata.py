@@ -94,7 +94,7 @@ class MetadataTest(unittest.TestCase):
         new.read()
         self.assertEquals(new.videos['a'].title, 'reinout')
 
-    def test_add1(self):
+    def test_add(self):
         self.metadata.read()
         item = metadata.Video(id='a')
         self.metadata.add(item)
@@ -120,3 +120,22 @@ class MetadataTest(unittest.TestCase):
         self.metadata.add(item2)
         self.assertEquals('b',
                           self.metadata.contents['videos']['a']['title'])
+
+    def test_add_to_album(self):
+        self.metadata.read()
+        item = metadata.Video(id='a', albums=['trains'])
+        self.metadata.add(item)
+        self.assertTrue('a' in self.metadata.albums['trains'])
+
+    def test_add_to_non_existing_album(self):
+        self.metadata.read()
+        item = metadata.Video(id='a', albums=['nonexisting'])
+        self.assertRaises(AssertionError, self.metadata.add, item)
+
+    def test_album_deduplication(self):
+        self.metadata.read()
+        self.metadata.albums['trains'] = ['a', 'a', 'b']
+        # The contents dict is cleaned up, so duplicates aren't written to
+        # disk.
+        self.assertEquals(len(self.metadata.contents['albums']['trains']),
+                          2)
