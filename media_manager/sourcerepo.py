@@ -57,6 +57,5 @@ class SourceRepo(object):
         filename = utils.nice_filename(item, target_dir)
         target = os.path.join(target_dir, filename)
         logger.debug("Adding file %s as %s.", item.original_filepath, target)
-        # TODO check duplicate filenames. Or warn.
         shutil.copy(item.original_filepath, target)
         item.id = os.path.relpath(target, self.source_repo_location)

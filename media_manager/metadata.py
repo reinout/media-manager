@@ -44,7 +44,16 @@ class MetadataItem(object):
 
     @property
     def addable_to_metadata(self):
+        """Return whether we have an ID.
+
+        For the metadata we need an ID so that others can point at us.
+        """
         return hasattr(self, 'id')
+
+    @property
+    def addable_to_source_repo(self):
+        """Return whether we're actually a file."""
+        return hasattr(self, 'original_filepath')
 
 
 class Photo(MetadataItem):

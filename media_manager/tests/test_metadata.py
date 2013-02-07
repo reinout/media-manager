@@ -35,6 +35,15 @@ class MetadataItemTest(unittest.TestCase):
         item = metadata.MetadataItem(id='abc')
         self.assertTrue(item.addable_to_metadata)
 
+    def test_addable_to_source_repo1(self):
+        item = metadata.Photo()
+        self.assertFalse(item.addable_to_source_repo)
+
+    def test_addable_to_source_repo2(self):
+        # We use Photo because that accepts original_filepath.
+        item = metadata.Photo(original_filepath='/a/b/c')
+        self.assertTrue(item.addable_to_source_repo)
+
 
 class MetadataTest(unittest.TestCase):
 
@@ -58,3 +67,12 @@ class MetadataTest(unittest.TestCase):
         self.metadata.write()
         self.assertTrue(os.path.exists(os.path.join(
                     self.tempdir, 'metadata.json')))
+
+    def test_write_read_non_empty(self):
+        self.metadata.read()
+        self.metadata.contents['reinout'] = 'fantastic'
+        self.metadata.write()
+        # Grab a new copy.
+        new = metadata.Metadata(self.tempdir)
+        new.read()
+        self.assertEquals(new.contents['reinout'], 'fantastic')
