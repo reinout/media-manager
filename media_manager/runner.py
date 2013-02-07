@@ -26,4 +26,5 @@ def add_video():
     # Ask for album.
     albums = []
 
+    source_repo.add(video)
     md.add(video)
