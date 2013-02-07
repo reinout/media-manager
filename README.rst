@@ -115,10 +115,10 @@ TODO
 - Add cleanup suggestion function that prints a list of videos that can be
   locally removed.
 
-- Add git annex commands.
-
 - Add page generation on the server.
 
 - Add conversion on the server.
 
 - Add "private? [y/N]" question.
+
+- Add push to s3 on server.
