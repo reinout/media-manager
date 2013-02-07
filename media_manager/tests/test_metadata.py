@@ -39,12 +39,12 @@ class MetadataTest(unittest.TestCase):
         self.assertTrue(self.metadata.filename.endswith('metadata.json'))
 
     def test_read_nonexisting(self):
+        # No existing file? The basic is already in place in-memory.
         self.metadata.read()
-        self.assertEquals(self.metadata.contents, {})
+        self.assertTrue('videos' in self.metadata.contents)
 
     def test_write_read_empty(self):
-        self.metadata = metadata.Metadata(self.tempdir)
-        self.metadata.write()
         self.metadata.read()
+        self.metadata.write()
         self.assertTrue(os.path.exists(os.path.join(
                     self.tempdir, 'metadata.json')))

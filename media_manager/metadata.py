@@ -65,8 +65,8 @@ class Metadata(object):
             logger.warning(
                 "Metadata file %s doesn't exist yet. We'll create it later.",
                 self.filename)
-            return
-        self.contents = json.load(open(self.filename))
+        else:
+            self.contents = json.load(open(self.filename))
         self.update_content_structure()
 
     def write(self):
