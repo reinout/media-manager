@@ -120,3 +120,5 @@ TODO
 - Add page generation on the server.
 
 - Add conversion on the server.
+
+- Add "private? [y/N]" question.
