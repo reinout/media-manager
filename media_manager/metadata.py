@@ -52,7 +52,7 @@ class MetadataItem(object):
 
     @property
     def addable_to_source_repo(self):
-        """Return whether we're actually a file."""
+        """Return whether we're actually a file that can be added."""
         if not hasattr(self, 'original_filepath'):
             return False
         if not hasattr(self, 'year'):
@@ -81,6 +81,11 @@ class MetadataItem(object):
 class Photo(MetadataItem):
     kind = 'photos'
     fields = PHOTO_FIELDS
+
+
+class Video(MetadataItem):
+    kind = 'videos'
+    fields = VIDEO_FIELDS
 
 
 class Metadata(object):
@@ -128,4 +133,4 @@ class Metadata(object):
         # albums_links = [album1_id, album2_id]
         # Add our (if we're kind=videos) link to those two albums in their
         # videos_links attr.
-        self.contents[item.kind][item.id] = item
+        self.contents[item.kind][item.id] = item.as_dict()

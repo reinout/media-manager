@@ -48,6 +48,12 @@ class MetadataItemTest(unittest.TestCase):
                               year=1972)
         self.assertTrue(item.addable_to_source_repo)
 
+    def test_addable_to_source_repo4(self):
+        item = metadata.Photo(original_filepath='/a/b/c',
+                              year=1972)
+        item.kind = 'something_else'
+        self.assertFalse(item.addable_to_source_repo)
+
     def test_determine_filename_and_set_id(self):
         item = metadata.Photo(original_filepath='/a/b/ADSF.JPG',
                               year=1972)
@@ -87,3 +93,27 @@ class MetadataTest(unittest.TestCase):
         new = metadata.Metadata(self.tempdir)
         new.read()
         self.assertEquals(new.contents['reinout'], 'fantastic')
+
+    def test_add1(self):
+        self.metadata.read()
+        item = metadata.Video(id='a')
+        self.metadata.add(item)
+        self.assertTrue('a' in self.metadata.contents['videos'])
+
+    def test_add_persists(self):
+        self.metadata.read()
+        item = metadata.Video(id='a')
+        self.metadata.add(item)
+        self.metadata.write()
+        new = metadata.Metadata(self.tempdir)
+        new.read()
+        self.assertTrue('a' in new.contents['videos'])
+
+    def test_add_overwriting(self):
+        self.metadata.read()
+        item = metadata.Video(id='a', title='a')
+        item2 = metadata.Video(id='a', title='b')
+        self.metadata.add(item)
+        self.metadata.add(item2)
+        self.assertEquals('b',
+                          self.metadata.contents['videos']['a']['title'])

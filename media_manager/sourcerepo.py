@@ -4,10 +4,6 @@ import logging
 import os
 import shutil
 
-from media_manager.metadata import Metadata
-from media_manager import utils
-
-
 KINDS = ('photos', 'videos')
 
 logger = logging.getLogger(__name__)
@@ -23,8 +19,6 @@ class SourceRepo(object):
     """
     def __init__(self, source_repo_location):
         self.source_repo_location = source_repo_location
-        self.metadata = Metadata(self.source_repo_location)
-        self.metadata.read()
 
     # def read(self):
     #     """Iterate through the source repo and extract the file info."""
