@@ -51,11 +51,9 @@ class SourceRepo(object):
 
         Detect filetype and also record the source filepath in the metadata.
         """
-        assert item.kind in KINDS
-        # Assert item.addable_to_source_repo()
+        assert item.addable_to_source_repo
         target_dir = self.ensure_directory(item.kind, item.year)
-        filename = utils.nice_filename(item, target_dir)
+        filename = item.determine_filename_and_set_id(target_dir)
         target = os.path.join(target_dir, filename)
         logger.debug("Adding file %s as %s.", item.original_filepath, target)
         shutil.copy(item.original_filepath, target)
-        item.id = os.path.relpath(target, self.source_repo_location)

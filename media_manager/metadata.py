@@ -53,7 +53,29 @@ class MetadataItem(object):
     @property
     def addable_to_source_repo(self):
         """Return whether we're actually a file."""
-        return hasattr(self, 'original_filepath')
+        if not hasattr(self, 'original_filepath'):
+            return False
+        if not hasattr(self, 'year'):
+            return False
+        if not self.kind in ('photos', 'videos'):
+            return False
+        return True
+
+    def determine_filename_and_set_id(self, target_directory):
+        """Return nice filename and set our ID
+
+        Try and come up with a SEO-fiendly nice name based on the title. But
+        should not overlap with an existing file in the target directory.
+        """
+        current_filename = os.path.basename(self.original_filepath).lower()
+        base, ext = os.path.splitext(current_filename)
+        if hasattr(self, 'title'):
+            base = utils.slugify(self.title)
+        while (base + ext) in os.listdir(target_directory):
+            base += '_'
+        filename = base + ext
+        self.id = os.path.join(self.kind, unicode(self.year), filename)
+        return filename
 
 
 class Photo(MetadataItem):

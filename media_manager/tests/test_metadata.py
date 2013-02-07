@@ -40,9 +40,20 @@ class MetadataItemTest(unittest.TestCase):
         self.assertFalse(item.addable_to_source_repo)
 
     def test_addable_to_source_repo2(self):
-        # We use Photo because that accepts original_filepath.
         item = metadata.Photo(original_filepath='/a/b/c')
+        self.assertFalse(item.addable_to_source_repo)
+
+    def test_addable_to_source_repo3(self):
+        item = metadata.Photo(original_filepath='/a/b/c',
+                              year=1972)
         self.assertTrue(item.addable_to_source_repo)
+
+    def test_determine_filename_and_set_id(self):
+        item = metadata.Photo(original_filepath='/a/b/ADSF.JPG',
+                              year=1972)
+        self.assertEquals(item.determine_filename_and_set_id('/'),
+                          'adsf.jpg')
+        self.assertEquals(item.id, 'photos/1972/adsf.jpg')
 
 
 class MetadataTest(unittest.TestCase):
