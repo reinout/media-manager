@@ -54,8 +54,7 @@ class SourceRepo(object):
         assert item.kind in KINDS
         # Assert item.addable_to_source_repo()
         target_dir = self.ensure_directory(item.kind, item.year)
-        filename = os.path.basename(item.original_filepath)
-        filename = utils.nice_filename(filename, item.title, target_dir)
+        filename = utils.nice_filename(item, target_dir)
         target = os.path.join(target_dir, filename)
         logger.debug("Adding file %s as %s.", item.original_filepath, target)
         # TODO check duplicate filenames. Or warn.

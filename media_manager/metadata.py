@@ -25,7 +25,6 @@ logger = logging.getLogger(__name__)
 
 
 class MetadataItem(object):
-    title = None
     fields = GENERIC_FIELDS
 
     def __init__(self, **kwargs):

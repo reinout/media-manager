@@ -43,8 +43,10 @@ def slugify(text):
     return unicode('-'.join(result)[:100])
 
 
-def nice_filename(current, title, directory):
+def nice_filename(file_item, directory):
     """Return nice non-duplicate filename."""
+    current = os.path.basename(file_item.original_filepath)
+    title = getattr(file_item, 'title', None)
     filename = current.lower()
     base, ext = os.path.splitext(filename)
     if title:
