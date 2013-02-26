@@ -82,3 +82,18 @@ def add_video():
     print("git annex copy --to origin")
     print("git annex sync")
     print("cd {}".format(current_dir))
+
+
+def videos_that_can_be_removed():
+    md = metadata.Metadata(DEFAULT_REPO)
+    md.read()
+    filepaths = [video.original_filepath for video in md.videos.values()]
+    can_be_removed = [path for path in filepaths if os.path.exists(path)]
+    if not can_be_removed:
+        print("No video files can be removed.")
+        sys.exit(0)
+    print("The following files can be safely removed "
+          "as they're now in ~/media")
+    for path in can_be_removed:
+        path = path.replace(' ', '\ ')
+        print("rm %s" % path)

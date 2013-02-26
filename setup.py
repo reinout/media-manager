@@ -38,5 +38,6 @@ setup(name='media-manager',
       entry_points={
           'console_scripts': [
             'add_video = media_manager.runner:add_video',
+            'videos_that_can_be_removed = media_manager.runner:videos_that_can_be_removed',
           ]},
       )
