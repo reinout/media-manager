@@ -11,6 +11,8 @@ long_description = '\n\n'.join([
 install_requires = [
     'setuptools',
     'readline',
+    'zope.component',
+    'zope.interface',
     ],
 
 tests_require = [

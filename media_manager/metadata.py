@@ -6,7 +6,10 @@ import json
 import logging
 import os
 
+from zope import interface
+
 from media_manager import utils
+from media_manager import interfaces
 
 METADATA_FILENAME = 'metadata.json'
 GENERIC_FIELDS = [
@@ -80,11 +83,13 @@ class MetadataItem(object):
 
 
 class Photo(MetadataItem):
+    interface.implements(interfaces.IPhoto)
     kind = 'photos'
     fields = PHOTO_FIELDS
 
 
 class Video(MetadataItem):
+    interface.implements(interfaces.IVideo)
     kind = 'videos'
     fields = VIDEO_FIELDS
 
