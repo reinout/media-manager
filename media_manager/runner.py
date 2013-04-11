@@ -11,9 +11,12 @@ import readline
 from media_manager.sourcerepo import SourceRepo
 from media_manager import metadata
 from media_manager import utils
+from media_manager import website
 
+# WEBSITE_PATH = '/Users/reinout/git/reinout.vanrees.org/docs/build/html'
+WEBSITE_PATH = '/Users/reinout/git/websitecontent/source'
 DEFAULT_REPO = os.path.abspath(os.path.expanduser('~/media'))
-# ^^^ Be careful not to use this in tests, you can overwrite the actual
+# ^^^ Be careful not to use those in tests, you can overwrite the actual
 # metadata and files that way.
 
 
@@ -97,3 +100,20 @@ def videos_that_can_be_removed():
     for path in can_be_removed:
         path = path.replace(' ', '\ ')
         print("rm %s" % path)
+
+
+def generate_website():
+    md = metadata.Metadata(DEFAULT_REPO)
+    md.read()
+    videos_path = os.path.join(WEBSITE_PATH, 'videos')
+    if not os.path.exists(videos_path):
+        os.makedirs(videos_path)
+    index_pathname = os.path.join(videos_path, 'index.txt')
+    content = []
+    content.append('Videos')
+    content.append('======')
+    content.append('')
+    for video in md.videos.values():
+        content.append('- %s' % video.title)
+        content.append('')
+    open(index_pathname, 'w').write('\n'.join(content))

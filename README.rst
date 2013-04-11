@@ -112,7 +112,8 @@ TODO
 - Add cleanup function that filters out non-existing photos/videos and that
   also removes them from the albums.
 
-- Add page generation on the server.
+- Add page generation on the server. (Perhaps generate a makefile locally that
+  gets executed on the server... Gna gna gna.)
 
 - Add conversion on the server.
 

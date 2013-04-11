@@ -9,8 +9,9 @@ long_description = '\n\n'.join([
     ])
 
 install_requires = [
-    'setuptools',
+    'Jinja2',
     'readline',
+    'setuptools',
     ],
 
 tests_require = [
@@ -38,6 +39,7 @@ setup(name='media-manager',
       entry_points={
           'console_scripts': [
             'add_video = media_manager.runner:add_video',
+            'generate_website = media_manager.runner:generate_website',
             'videos_that_can_be_removed = media_manager.runner:videos_that_can_be_removed',
           ]},
       )
