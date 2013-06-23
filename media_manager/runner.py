@@ -38,7 +38,7 @@ def add_video():
     if len(sys.argv) < 2:
         print("Pass me a path to a video file.")
         sys.exit(1)
-    filename = sys.argv[1]
+    filename = os.path.abspath(sys.argv[1])
     assert os.path.exists(filename)
     md = metadata.Metadata(DEFAULT_REPO)
     md.read()
