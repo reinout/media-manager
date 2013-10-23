@@ -4,7 +4,7 @@ from unicodedata import normalize
 import os
 import re
 
-PUNCT_RE = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
+PUNCT_RE = re.compile(r'[\t :!"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 ALBUMS = [
     "cycling",
