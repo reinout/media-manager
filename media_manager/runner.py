@@ -85,6 +85,8 @@ def add_video():
     print("git annex copy --to origin")
     print("git annex sync")
     print("cd {}".format(current_dir))
+    print("rm {}".format(filename))
+    print("echo 'done'")
 
 
 def videos_that_can_be_removed():
