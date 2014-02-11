@@ -20,7 +20,10 @@ FILE_FIELDS = GENERIC_FIELDS + [
     'albums',
     ]
 PHOTO_FIELDS = FILE_FIELDS + []
-VIDEO_FIELDS = FILE_FIELDS + []
+VIDEO_FIELDS = FILE_FIELDS + [
+    'vimeo_link',
+    'youtube_link',
+]
 
 logger = logging.getLogger(__name__)
 

@@ -60,12 +60,16 @@ def add_video():
     album = None
     while not album:
         album = raw_input('Album: ')
+    vimeo = raw_input('Vimeo link: ')
+    youtube = raw_input('Youtube link: ')
 
     video = metadata.Video(
         original_filepath=filename.decode('utf8'),
         title=title.decode('utf8'),
         year=year.decode('utf8'),
         albums=[album.decode('utf8')],
+        vimeo_link=vimeo,
+        youtube_link=youtube,
         )
     pprint(video.as_dict())
 
