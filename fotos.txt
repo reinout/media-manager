@@ -1,0 +1,138 @@
+Structuur
+---------
+
+Ik vind de indeling van http://photos.nwalsh.com/ wel praktisch eruit zien.
+
+- Per gebeurtenis/set. Platte lijst van VEEL gebeurtenissen. Googlen
+  maar. Titels zoals "xml-summer-school-oxford-gb-september-2012". (Wel een
+  set "overig-2012" enzo hebben).
+
+  Sets kunnen "genest" zijn. ("river cruise 2011"). Handig voor onze
+  vakanties.
+
+- Per locatie: twee niveau's, land en plaats (evt. meerdere zoals bij USA
+  staten, maar da's voor mij niet relevant).  Het kan als 1 string: "De Bilt,
+  NL". En toch met drie niveau's: "Spoorwegmuseum, Utrecht, NL",
+  "Nelen&Schuurmans, Utrecht, NL".
+
+- Datum (per jaar en maand).
+
+De foto's zelf zijn qua filestructuur in yyyy/mm/dd folders opgeslagen. Hm,
+dat doet iphoto ook, behalve dat er een extra subdir inzit.
+
+=> foto's kopieren naar een eigen structuur. En dan gelijk een naam geven die
+klopt met de titel.
+
+iphoto tags en titels zijn goed uit de plist .xml file te halen.
+
+
+/images/yyyy/mm/dd/mijn-mooie-titel.html
+/images/yyyy/mm/dd/mijn-mooie-titel_orig.jpg
+/images/yyyy/mm/dd/mijn-mooie-titel_medium.jpg
+/images/yyyy/mm/dd/mijn-mooie-titel_thumb.jpg
+/sets/0123-vakantie-in-achterhoek/
+/locations/nl/winterswijk
+
+
+Per foto nodig:
+
+- Titel
+
+- Locatie, kommagescheiden. "Plaats, landafkorting".
+
+- Geolocatie x,y.
+
+- Evtentueel toegangsgroep. "Familie", "Gezin", "N&S", "kerk".
+
+- Tags. Extra groepering. "construction", "deconstruction".
+
+
+Bronnen:
+
+- iphoto. Staat bijna alles volgens mij wel in. Inclusief titels, maar niet
+  altijd met geolocatie; die heb ik vaak op flickr ingevuld.
+
+- Smugmug. Hier moet ik nog wel wat uittrekken dat ik lokaal niet heb.
+
+  - Alle video's nakijken welke ik lokaal ook heb. Of alles gewoon downloaden.
+
+  - Via weblog (zie hieronder) missende foto's downloaden.
+
+  - Alle 3-ster zaken. Die heb ik daar geback-upt. GEDAAN.
+
+- Weblog. Links naar foto's op smugmug. Dit ergens opslaan (json) zodat ik
+  missende foto's kan downloaden en hopelijk makkelijker kan verwijzen naar de
+  versie op m'n eigen fotosite.
+
+  Extra idee: blog-grootte foto in de blog directory opslaan? "Vervuilt" 'ie
+  de andere directory niet.
+
+
+TODO:
+
+- Publieke foto's aan google sitemap toevoegen incl. link naar licentie.
+
+
+Hoe opslaan
+-----------
+
+Beetje scheiden?
+
+- Foto's.
+
+- 3 ster foto's. Directory per jaar.
+
+- Videos. Deze staan in ieder geval los. Ze staan niet in iphoto/imovie. Dus
+  die moet ik zelf managen. json file met metadata. Ehm, hoe dat te managen?
+  web interface? In ieder geval voorlopig in een directory per jaar stoppen.
+
+
+Thumbnails naar tags/directories slepen?
+
+=> Alles voorlopig in directory per jaar!
+
+
+Hoe wil ik het gebruiken?
+-------------------------
+
+Meer integreren in m'n website. Bij sommige sets foto's verhalen maken. Of de
+ligfietsfoto's bij /ligfietsen plaatsen.
+
+Kinderen/familie makkelijk gericht laten bekijken wat zij willen
+("vakantiefoto's"). Met een link naar de video.
+
+Misschien als eerste de video's omzetten?
+
+
+
+
+
+3ster en video per jaar, foto's per yyyy/mm/dd.
+
+Aan alle kunnen meerdere (komma-geneste) locatie tags gehangen worden. En een titel.
+
+En aan alle kunnen tags gehangen worden. Ook hier komma-genest. 'modeltrains,
+katwijk'.
+
+Dan heb ik geen sets, maar dat geeft niet. Dat doe ik wel met
+tags. Hm. Handmatige pagina's? Met daarop verwijzingen naar tags danwel data?
+En anders een tag als 'sets, vakantie2010'.
+
+
+
+Ok, da's een plan. TODO:
+
+- Foto's opnieuw raten (=veel naar 3-ster) in iphoto. Titels
+  goedzetten. Eventueel datum goedzetten.
+
+- Tag-structuur bekijken a/d hand van smugmug categorieen.
+
+- 3ster foto's uit zipjes in jaarfolders stoppen. En dan in aparte annex.
+
+- Aparte annex voor video's opzetten met jaarfolders. En daar alles inzetten
+  wat ik heb. En dan smugmug nakijken wat ik mis. En lokaal.
+
+- JSON opzetten voor video's. Titel, locatie-tag, reguliere tags. Scriptje dat
+  nog-niet-gedocumenteerde video's opsomt.
+
+- Foto's syncen met iphoto.
